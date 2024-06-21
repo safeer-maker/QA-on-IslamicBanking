@@ -56,10 +56,39 @@ class data_extraction ():
                     comp_rar.extractall (path_to_extrect)
                     print ("Extraction sucessfull : ", compress_file)
 
-            with open ( os.path.join ( config.zip_folder, 'dir-lst.txt'), "a+t" ) as file:
+            with open ( config.zip_file  , "a+t" ) as file:
                     file.write ( i +'\n' )
 
-        return 0    
+        return 0
+    
+    def delete_text_file (self, path = None):
+
+        if path is None:
+            path = config.zip_file 
+        
+        print ("deleting file at : ",path)
+
+        with open ( path ,'wt') as w:
+            pass
+
+        return 0
+
+    def delete_all_data(self, path = config.zip_folder):
+
+        files = self.dir_ls =  os.listdir (path)
+        file_path = [ os.path.join (path, file)  for file in files ]
+
+        print (file_path)
+        try:
+            for files in file_path:
+                 os.remove (files)
+            with open ( config.zip_file  ,'wt') as w:
+                pass
+            return 0
+        except:
+            print("An exception occurred")
+            return -1
+            
     
 
 if __name__ == '__main__':
@@ -69,6 +98,9 @@ if __name__ == '__main__':
     print (cls.zip_filename)
 
     cls.extract_files()
+
+    # cls.delete_text_file()
+    # cls.delete_all_data ()
 
 
 
