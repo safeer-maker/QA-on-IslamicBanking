@@ -39,7 +39,10 @@ class data_extraction ():
         return 0
 
     def extract_files (self, path_to_extrect = config.pdf_folder):
-
+        """ Dependensies
+        pip install rarfile
+        sudo apt-get install unrar
+        """
         # Lets extract those files
 
         for i in  self.zip_filename:
