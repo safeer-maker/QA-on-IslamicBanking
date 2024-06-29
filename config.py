@@ -14,4 +14,5 @@ zip_file   = os.path.join (zip_folder,__zip_file_name)
 
 print ("pdf_folder : ", pdf_folder )
 
+db_foulder = 'vector_db'
 
