@@ -10,6 +10,7 @@ class data_extraction ():
         self.zip_filename = []
         self.un_zippded_filesname = []
 
+
     def read_all_zip_files (self, path = None):
 
         if path is None:
@@ -41,6 +42,7 @@ class data_extraction ():
 
         return self.zip_filename
 
+
     def extract_files (self, path_to_extrect = None):
         """ Dependensies
         pip install rarfile
@@ -70,6 +72,7 @@ class data_extraction ():
 
         return 0
     
+
     def delete_text_file (self, path = None):
 
         if path is None:
@@ -82,8 +85,12 @@ class data_extraction ():
 
         return 0
 
-    def delete_all_data(self, path = config.zip_folder):
 
+    def delete_all_data(self, path = None):
+
+        if path is None:
+            path = config.zip_folder 
+    
         files = self.dir_ls =  os.listdir (path)
         file_path = [ os.path.join (path, file)  for file in files ]
 
@@ -97,7 +104,8 @@ class data_extraction ():
         except:
             print("An exception occurred")
             return -1
-        
+
+       
     def extraction_pipeline (self, foulder_path_zip = None, foulder_path_pdf = None ):
         if foulder_path_pdf  is None:
             foulder_path_pdf = config.pdf_folder
