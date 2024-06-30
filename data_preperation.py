@@ -6,3 +6,7 @@ class data_preperation (data_extraction):
     def __init__ ():
         super().__init__()
         pass
+
+
+if __name__ == '__main__':
+    pass
