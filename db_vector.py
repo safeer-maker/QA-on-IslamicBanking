@@ -16,7 +16,21 @@ class vector_db (data_preperation):
     def db_add (self ):
         dict = self.data
         print (dict)
+        collection = self.collection
+        count = collection.count() 
 
+        print (count , len(dict['page_content']))
+        
+        ids = [ str(i) for i in range(count, count + len(dict['page_content']))]
+        print ("ids:",ids)
+        collection.add(
+            ids=ids,
+            documents =dict['page_content'],
+            metadatas=dict['metadata']
+        )
+
+        print(collection.count)
+        
 
 if __name__ == '__main__':
     cls = vector_db()

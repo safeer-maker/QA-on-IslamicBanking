@@ -124,6 +124,9 @@ class data_preperation (data_extraction):
         self.pdf_files_to_read()
         self.read_pdf()
         self.split_doc()
+
+        #### temp
+        # self.def_pdf_list()
         return self.proc_doc_dict
         
 
