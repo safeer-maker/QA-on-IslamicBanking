@@ -10,22 +10,26 @@ class data_extraction ():
         self.zip_filename = []
         self.un_zippded_filesname = []
 
-    def read_all_zip_files (self, path = config.zip_folder):
 
+    def read_all_zip_files (self, path = None):
+
+        if path is None:
+            path = config.zip_folder
+    
         self.dir_ls =  os.listdir (path )
 
         # checking if the file lising all extracted zip exist
         # if not then make that file
-        if "dir-lst.txt" in os.listdir (path):
-            print ("dir-lst.txt file found")
+        if config.zip_file_name in os.listdir (path):
+            print (f"{config.zip_file_name} file found")
         else:
-            print ("dir-lst.txt NOT file found")
+            print (f"{config.zip_file_name} NOT file found")
             # create a emplty file if file not exists
-            with open ( os.path.join ( path , 'dir-lst.txt' ), 'w' ) as x:
+            with open (config.zip_file, 'w' ) as x:
                 pass
         
         # reading all the names of files that are aleady extracted
-        with open ( os.path.join ( path , 'dir-lst.txt' ) , 'rt' ) as x:
+        with open ( config.zip_file , 'rt' ) as x:
             self.un_zippded_filesname = x.read ().split('\n')
             print ("files ", self.un_zippded_filesname)
 
@@ -36,10 +40,17 @@ class data_extraction ():
                 print (f"{file} is ready for extraction")
                 self.zip_filename.append (file)
 
-        return 0
+        return self.zip_filename
 
-    def extract_files (self, path_to_extrect = config.pdf_folder):
 
+    def extract_files (self, path_to_extrect = None):
+        """ Dependensies
+        pip install rarfile
+        sudo apt-get install unrar
+        """
+
+        if path_to_extrect is None:
+            path_to_extrect = config.pdf_folder
         # Lets extract those files
 
         for i in  self.zip_filename:
@@ -61,6 +72,7 @@ class data_extraction ():
 
         return 0
     
+
     def delete_text_file (self, path = None):
 
         if path is None:
@@ -73,8 +85,12 @@ class data_extraction ():
 
         return 0
 
-    def delete_all_data(self, path = config.zip_folder):
 
+    def delete_all_data(self, path = None):
+
+        if path is None:
+            path = config.zip_folder 
+    
         files = self.dir_ls =  os.listdir (path)
         file_path = [ os.path.join (path, file)  for file in files ]
 
@@ -88,19 +104,31 @@ class data_extraction ():
         except:
             print("An exception occurred")
             return -1
-            
-    
+
+       
+    def extraction_pipeline (self, foulder_path_zip = None, foulder_path_pdf = None ):
+        if foulder_path_pdf  is None:
+            foulder_path_pdf = config.pdf_folder
+        if foulder_path_zip is None:
+            foulder_path_zip = config.zip_folder
+
+        try:
+            self.read_all_zip_files(foulder_path_zip)
+            self.extract_files(foulder_path_pdf)
+            print ("\n\nextraction pipeline sucessfull\n\n")
+        except:
+            print ("\n\nextraction pipeline failed\n\n".upper())
+            return-1
+
 
 if __name__ == '__main__':
     cls = data_extraction()
-    cls.read_all_zip_files()
+    # cls.read_all_zip_files()
+    # print (cls.zip_filename)
 
-    print (cls.zip_filename)
+    # cls.extract_files()
 
-    cls.extract_files()
-
-    # cls.delete_text_file()
-    # cls.delete_all_data ()
-
-
+    cls.delete_text_file()
+    cls.delete_all_data ()
+    cls.extraction_pipeline()
 
