@@ -44,13 +44,6 @@ class data_preperation (data_extraction):
         if pdf_foulder is None:
             pdf_foulder = config.pdf_folder
 
-        # pdf_full_path = list (
-        #     map (
-        #         lambda list : os.path.join ( pdf_foulder , list),
-        #         self.pdf_list
-        #     )
-        # )
-
         for i in self.pdf_list:
             pdf_file = os.path.join (pdf_foulder, i)
             print (f"Reading {pdf_file}")
