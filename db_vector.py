@@ -34,6 +34,7 @@ class vector_db (data_preperation):
             )
 
         print( "count by  : ", collection.count())
+        return 0
 
     def db_query(self, query):
         result = self.collection.query (query_texts= query)
@@ -42,6 +43,7 @@ class vector_db (data_preperation):
     def db_del (self):
         self.vector_db.delete_collection(config.colelction_name)
         super().def_pdf_list()
+        super().def_zip_list()
         # self.vector_db.reset()
 
     def db_extract_add (self):
