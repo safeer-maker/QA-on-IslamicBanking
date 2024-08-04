@@ -129,6 +129,6 @@ if __name__ == '__main__':
     # cls.extract_files()
 
     cls.delete_text_file()
-    cls.delete_all_data ()
+    # cls.delete_all_data ()
     cls.extraction_pipeline()
 

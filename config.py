@@ -18,8 +18,8 @@ print (os.system('pwd'))
 print ("pdf_folder : ", pdf_folder )
 
 db_foulder = 'vector_db'
-colelction_name = 'banking'
-db_url = 'localhost'
+collection_name = 'banking'
+db_url = '0.0.0.0'
 db_port = 8000
 
 split_chunk = 500

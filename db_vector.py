@@ -2,7 +2,7 @@ import chromadb
 from chromadb.utils import embedding_functions
 import config
 from data_preperation import data_preperation
-from data_extraction import data_extraction
+# from data_extraction import data_extraction
 
 
 class vector_db (data_preperation):
@@ -12,7 +12,7 @@ class vector_db (data_preperation):
         # self.vector_db = chromadb.PersistentClient (path=config.db_foulder)
         self.vector_db = chromadb.HttpClient (host=config.db_url, port=config.db_port)
         self.embeddings = embedding_functions.ONNXMiniLM_L6_V2()
-        self.collection = self.vector_db.get_or_create_collection ( config.colelction_name , embedding_function=self.embeddings)
+        self.collection = self.vector_db.get_or_create_collection ( config.collection_name , embedding_function=self.embeddings)
         
     def db_add (self, dict = {} ):
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     cls = vector_db()
 
     # cls.db_add()
-    # cls.db_del()
-    # cls.db_extract_add()
+    cls.db_del()
+    cls.db_extract_add()
     print (cls.db_query("what is banking"))
 
