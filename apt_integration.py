@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from db_vector import vector_db
+import uvicorn
 
 app = FastAPI()
 cls = vector_db()
@@ -29,3 +30,5 @@ async def add_db():
     cls.db_extract_add()
     return {"message": "data added to DB"}
 
+if __name__ == "__main__":
+    uvicorn.run( app, port = 9090)
