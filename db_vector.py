@@ -56,7 +56,7 @@ if __name__ == '__main__':
     cls = vector_db()
 
     # cls.db_add()
-    cls.db_del()
+    # cls.db_del()
     cls.db_extract_add()
     print (cls.db_query("what is banking"))
 

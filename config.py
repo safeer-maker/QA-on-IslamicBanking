@@ -25,6 +25,6 @@ db_port = 8000
 split_chunk = 500
 split_overlap = 30
 
-llm_model = 'gpt-4o-mni'
+llm_model = 'gpt-4o-mini'
 
 

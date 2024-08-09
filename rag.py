@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+from db_vector import vector_db
 
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
@@ -18,7 +19,8 @@ You are an AI assistant that generates multiple related questions based on an in
 {question}
 
 **Output:**
-Provide a python dictonary object with the following structure:
+Provide a python dictonary object with the following structure.\
+  don't write python code in the output:
 dict (
   "original_question": "<question>",
   "related_questions": [
@@ -34,14 +36,35 @@ prompt = prompt_template.format(question=input_question)
 
 print (prompt)
 
-response = llm.invoke (prompt)
+# response = llm.invoke (prompt)
+# print (response)
+# multi_ques =   json.loads  (response.content)
+# print (multi_ques)
+sample_question_dict = {'original_question': 'what is llm?',
+ 'related_questions': ['What does LLM stand for?',
+  'How does a large language model work?',
+  'What are some comprint (multi_ques)mon applications of LLMs?',
+  'What are the differences between LLMs and traditional machine learning models?',
+  'What are the limitations of using LLMs?',
+  'How are LLMs trained and what data do they require?',
+  'What are some popular LLM frameworks or libraries?',
+  'How do LLMs handle natural language understanding?',
+  'What ethical considerations are associated with LLMs?',
+  'What advancements have been made in LLM technology recently?']}
 
-print (response)
 
-multi_question =  ["Can you explain the concept of llm?","What does llm stand for and how is it used?", "How is llm defined and what are its applications?","Could you provide information on the meaning and significance of llm?", "In what context is llm commonly used and what are its key features?"]
+related_questions = sample_question_dict['related_questions']
 
-multi_ques =   json.loads  (response.content)
+db = vector_db()
+# try:
+#     # db = vector_db()
+# except Exception as e:
+#     print ("DB is down error code :", e)
 
-print (multi_ques)
+related_data = []
+for i in related_questions:
+    related_data.append = db.db_query(i)
+
+print (related_data)
 
 
