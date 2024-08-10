@@ -63,7 +63,7 @@ db = vector_db()
 
 related_data = []
 for i in related_questions:
-    related_data.append = db.db_query(i)
+    related_data.extend (  db.db_query(i)["documents"][:] )
 
 print (related_data)
 

@@ -19,12 +19,11 @@ print ("pdf_folder : ", pdf_folder )
 
 db_foulder = 'vector_db'
 collection_name = 'banking'
-db_url = '0.0.0.0'
-db_port = 8000
+db_url = 'localhost'
+db_port = "8000"
 
 split_chunk = 500
 split_overlap = 30
 
 llm_model = 'gpt-4o-mini'
-
 
