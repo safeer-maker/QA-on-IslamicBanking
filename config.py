@@ -27,6 +27,8 @@ split_overlap = 30
 
 llm_model = 'gpt-4o-mini'
 
+logger_filename = "logs.log"
+
 no_of_questions = 3
 query_doc_per_question = 3
 

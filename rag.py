@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 import os
 from db_vector import vector_db
-
+from logger import *
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 import config,  json
@@ -16,6 +16,7 @@ class rag():
         self.related_questions = []
         self.related_data = []
         self.context = []
+        log_info({"class": "rag", "method": "__init__", "message": "rag class object created"})
 
     def llm_invoke(self, prompt: str):
         return self.llm.invoke (prompt)
@@ -49,7 +50,7 @@ class rag():
             question=input_question,
             no_of_questions = no_of_questions
             )
-      
+      log_info({"class": "rag", "method": "prompt_template_multi_questions", "prompt": prompt})
       return prompt
 
     def format_context (self, related_questions):
@@ -84,7 +85,7 @@ class rag():
           input_question  = self.input_question,
           context         = context
         )
-      
+      log_info({"class": "rag", "method": "prompt_template_multi_query_rag", "prompt": prompt})
       return prompt
 
     def get_related_questions (self, input_question, no_of_questions : int = 5):
@@ -93,12 +94,14 @@ class rag():
         multi_ques = json.loads  (response.content)
         self.related_questions = multi_ques['related_questions']
         self.related_questions.insert(0, input_question)
+        log_info({"class": "rag", "method": "get_related_questions", "related_questions": self.related_questions})
         return self.related_questions
 
     def get_related_data (self, related_questions,  query_doc_per_question: int):
         
         for i in related_questions:
             self.related_data.extend ( self.db.db_query(i, num_results = query_doc_per_question)["documents"][0] )
+        log_info({"class": "rag", "method": "get_related_data", "related_data": self.related_data})
         return self.related_data
 
     def remove_dublicate (self, related_data):
@@ -106,7 +109,7 @@ class rag():
         return self.no_dublicate
 
     def get_rag (self, input_question, no_of_questions : int):
-
+        log_info({"class": "rag", "method": "get_rag", "input_question": input_question, "no_of_questions": no_of_questions})
         self.related_questions = self.get_related_questions(input_question , no_of_questions)
         self.related_data = self.get_related_data(self.related_questions, config.query_doc_per_question)
         context = self.remove_dublicate(self.related_data)
@@ -115,79 +118,17 @@ class rag():
     
     def rag_base_answer (self, input_question : str ):
         if input_question == '':
+            log_critical({"class": "rag", "method": "rag_base_answer", "message": "No input question"})
             return "No input question"
         
         self.input_question = input_question
         self.get_rag (self.input_question, config.no_of_questions)
         
         prompt = self.prompt_template_multi_query_rag (self.context)
-        return self.llm_invoke (prompt=prompt).content
+        answer = self.llm_invoke (prompt=prompt).content
+        log_info ({"class": "rag", "method": "rag_base_answer", "answer": answer})
+        return answer
 
-
-# llm = ChatOpenAI (model=config.llm_model)
-
-# input_question = "what is llm"
-
-# prompt_template = """
-# You are an AI assistant that generates multiple related questions based on an input question. Your task is to take the given question and create a series of connected questions that explore different aspects of the topic. The output should be in dictionary format.
-# Number of generated question should not be more then 5.
-
-# **Input Question:** 
-# {question}
-
-# **Output:**
-# Provide a python dictonary object with the following structure.\
-#   don't write python code in the output:
-# dict (
-#   "original_question": "<question>",
-#   "related_questions": [
-#     "<related_question_1>",
-#     "<related_question_2>",
-#     "<related_question_3>",
-#     ...
-#   ]
-# )
-# """
-
-# prompt = PromptTemplate.from_template(
-#       prompt_template
-#     ).format(question=input_question)
-
-# print (prompt)
-
-# # response = llm.invoke (prompt)
-# # print (response)
-# # multi_ques =   json.loads  (response.content)
-# # print (multi_ques)
-# sample_question_dict = {'original_question': 'what is llm?',
-#  'related_questions': ['What does LLM stand for?',
-#   'How does a large language model work?',
-#   'What are some comprint (multi_ques)mon applications of LLMs?',
-#   'What are the differences between LLMs and traditional machine learning models?',
-#   'What are the limitations of using LLMs?',
-#   'How are LLMs trained and what data do they require?',
-#   'What are some popular LLM frameworks or libraries?',
-#   'How do LLMs handle natural language understanding?',
-#   'What ethical considerations are associated with LLMs?',
-#   'What advancements have been made in LLM technology recently?']}
-
-
-# related_questions = sample_question_dict['related_questions']
-
-# db = vector_db()
-# # try:
-# #     # db = vector_db()
-# # except Exception as e:
-# #     print ("DB is down error code :", e)
-
-# related_data = []
-# for i in related_questions:
-#     related_data.extend (  db.db_query(i, num_results = 3)["documents"][0] )
-
-# print (len (related_data))
-# no_dublicate = list(set(related_data))
-
-# print (len (no_dublicate))
 
 if __name__ == "__main__":
     rag = rag()
