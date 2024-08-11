@@ -11,7 +11,7 @@ class vector_db (data_preperation):
         # self.data = super().data_prep_pipeline()
         self.vector_db = chromadb.PersistentClient (path=config.db_foulder)
         # self.vector_db = chromadb.HttpClient (host=config.db_url, port=config.db_port)
-        print ("Number of collection in DB ", self.vector_db.list_collections())
+        print ( "Number of collection in DB ", self.vector_db.list_collections() )
         self.embeddings = embedding_functions.ONNXMiniLM_L6_V2()
         self.collection = self.vector_db.get_or_create_collection ( config.collection_name , embedding_function=self.embeddings)
         
@@ -42,8 +42,8 @@ class vector_db (data_preperation):
         print( "count by  : ", collection.count())
         return 0
 
-    def db_query(self, query):
-        result = self.collection.query (query_texts= query)
+    def db_query(self, query, num_results: int):
+        result = self.collection.query (query_texts= query , n_results=num_results)
         return result
 
     def db_del (self):
@@ -63,5 +63,5 @@ if __name__ == '__main__':
     # cls.db_add()
     # cls.db_del()
     # cls.db_extract_add()
-    print (cls.db_query("what is banking"))
+    print (cls.db_query("what is banking", num_results= 5)["documents"])
 
