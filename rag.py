@@ -7,7 +7,7 @@ from langchain_openai import ChatOpenAI
 import config,  json
 load_dotenv()
 
-class rag():
+class rag_class():
     def __init__(self):
         self.llm = ChatOpenAI (model=config.llm_model)
         self.db = vector_db()
@@ -131,7 +131,7 @@ class rag():
 
 
 if __name__ == "__main__":
-    rag = rag()
+    rag = rag_class()
     print (rag.rag_base_answer("what is islamic banking") )
 
 
