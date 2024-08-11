@@ -18,13 +18,17 @@ print (os.system('pwd'))
 print ("pdf_folder : ", pdf_folder )
 
 db_foulder = 'vector_db'
-colelction_name = 'banking'
+collection_name = 'banking'
 db_url = 'localhost'
-db_port = 8000
+db_port = "8000"
 
 split_chunk = 500
 split_overlap = 30
 
+llm_model = 'gpt-4o-mini'
 
+logger_filename = "logs.log"
 
+no_of_questions = 3
+query_doc_per_question = 3
 
