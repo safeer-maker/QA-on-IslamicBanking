@@ -32,4 +32,5 @@ logger_filename = "logs.log"
 no_of_questions = 3
 query_doc_per_question = 3
 
-api_port = 9090
+api_url = "http://127.0.0.1"
+api_port = "9090"
