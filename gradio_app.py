@@ -27,12 +27,15 @@ def question_answer(query):
 demo = gr.Blocks()
 
 with demo:
-    gr.Markdown("# FastAPI Demo")
+    gr.Markdown("# Islamic Banking QA System")
     query = gr.Textbox(label="Query", placeholder="Enter your query")
     result = gr.JSON(label="Results")
-    answer = gr.Textbox(label="Answer")
+    answer = gr.Textbox(label="Answer", placeholder="Answer will appear here")
 
-    search_button = gr.Button("Search")
+    question_answer_button = gr.Button("Answer by AI")
+    question_answer_button.click(question_answer, inputs=[query], outputs=[answer])
+
+    search_button = gr.Button("Search Relevent documents in DB")
     search_button.click(search, inputs=[query], outputs=[result])
 
     reset_db_button = gr.Button("Reset DB")
@@ -44,7 +47,5 @@ with demo:
     add_data_to_db_button = gr.Button("Add Data to DB")
     add_data_to_db_button.click(add_data_to_db, inputs=[], outputs=[result])
 
-    question_answer_button = gr.Button("Question Answer")
-    question_answer_button.click(question_answer, inputs=[query], outputs=[answer])
 
-demo.launch()
+demo.launch(share=True)

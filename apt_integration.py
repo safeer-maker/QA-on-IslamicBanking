@@ -16,7 +16,7 @@ async def root():
 
 @app.get("/db-query/{query}")
 async def query(query: str):
-    result = db.db_query(query)
+    result = db.db_query(query, num_results = 3)
     return result['documents']
 
 @app.get("/reset/db")
@@ -37,7 +37,7 @@ async def reset_pdf():
 @app.get ('/add_db')
 async def add_db():
     db.db_extract_add()
-    return {"message": "data added to DB"}
+    return {"message": "All new Pdf data is added to Data Base"}
 
 @app.get ('/question-answer-from-data/{query}')
 async def question_answer_from_data(query: str):
@@ -46,4 +46,4 @@ async def question_answer_from_data(query: str):
     return {"answer": answer}
 
 if __name__ == "__main__":
-    uvicorn.run( app, port = config.api_port)
+    uvicorn.run( app, port = int(config.api_port))

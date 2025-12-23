@@ -15,7 +15,7 @@ class vector_db (data_preperation):
         self.embeddings = embedding_functions.ONNXMiniLM_L6_V2()
         self.collection = self.vector_db.get_or_create_collection ( config.collection_name , embedding_function=self.embeddings)
         
-    def db_add (self, dict = {} ):
+    def db_add (self, dict : dict = {} ):
 
         if self.vector_db.list_collections() == []:
             print ("Collection is empty")
@@ -42,7 +42,7 @@ class vector_db (data_preperation):
         print( "count by  : ", collection.count())
         return 0
 
-    def db_query(self, query, num_results: int):
+    def db_query(self, query, num_results: int = 5):
         result = self.collection.query (query_texts= query , n_results=num_results)
         return result
 
@@ -62,6 +62,6 @@ if __name__ == '__main__':
 
     # cls.db_add()
     # cls.db_del()
-    # cls.db_extract_add()
+    cls.db_extract_add()
     print (cls.db_query("what is banking", num_results= 5)["documents"])
 
